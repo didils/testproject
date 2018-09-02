@@ -5,8 +5,13 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/es/integration/react";
 import configureStore from "./redux/configureStore";
+import AppContainer from './components/AppContainer';
+
+
 
 const { persistor, store } = configureStore();
+
+store.dispatch({ type : "LOG_OUT" });
 
 export default class App extends React.Component {
   state = {
@@ -26,9 +31,7 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <PersistGate persistor={persistor}>
-          <View style={styles.container}>
-            <Text>제발 좀 되자!</Text>
-          </View>
+          <AppContainer/>
         </PersistGate>
       </Provider>
     );
@@ -37,7 +40,8 @@ export default class App extends React.Component {
     return Promise.all([
       Asset.loadAsync([
         require("./assets/images/icon.png"),
-        require("./assets/images/splash.png")
+        require("./assets/images/splash.png"),
+        require("./assets/images/logo-top.png")
       ]),
       Font.loadAsync({
         ...Ionicons.font,
@@ -55,11 +59,3 @@ export default class App extends React.Component {
   };
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
